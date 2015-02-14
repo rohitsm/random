@@ -1,0 +1,181 @@
+Instructions:
+1.	Please read the console application guideline before you proceed to answer questions. Those guidelines will be used to answer all the console application questions. 
+2.	You may use any SQL (Structured Query Language) to answer all query database questions.
+3.	While for logic question, you may used pseudo code or any programming language you are familiar with.
+
+
+Guidelines for console application question:
+1.	Write(var);   [write a string/number in console window]
+2.	Writeln(var); [write a string/number followed by new line in console application]
+3.	Readln(var)   [insert user input to the given variable]
+a.	Readln(n);    [user can enter any value to variable n]
+4.	Loop syntax example:
+
+	01:	For (i=1;i<=5;i++)	
+	02:	Begin
+	03:	     Write("abc");
+	04:	      Writeln("");
+	05:	 End;
+        ------------------------------------------          
+	01:	 I=1;
+	02:	 While (i<6) do
+	03:	 Begin
+	04:	      Write("abc");
+	05:	      Writeln("");
+	06:	      i=i+1;
+	07:	 End
+        ---------------------------------------
+	01:	 I=1;
+	02:	 Repeat
+	03:	     Write("abc");
+	04:	     Writeln("");
+	05:	     i=i+1;
+	06:	  Until (i<=5);
+                
+        All the sample will ouput:
+            abc
+            abc
+            abc
+            abc
+            abc
+
+Questions:
+==============================================[Console Application Questions]==========================================
+1.	What is the output of the simple console application? 
+
+	01:	Begin
+	02:	   a=1;
+	03:	   b=1;
+	04:	   c=a+b;
+	05:	   write(c);
+	06:	   a=b;
+	07:	   b=c;
+	08:	   c=a+b;
+	09:	   write(c);
+	10:	End;
+
+Soln:
+	23 // c = 2 and then c = 3
+
+
+2.	Using the given example of the loop syntax, how do you write a console application code to have below output?
+
+	Case 1:
+	Input = 5  <ask input from user>
+   	Output= 12345 <output from code>
+
+	Case 2:
+	Input = 6  <ask input from user>
+   	Output= 123456 <output from code>
+
+	Case 3:
+	Input = 3  <ask input from user>
+   	Output= 123 <output from code>
+	
+Soln:
+	01:	Readln(n);    
+	02: For (i=1;i<=n;i++)	
+	03:	Begin
+	04:	     Write(i);
+	05:	End;
+
+
+==============================================[Logic Questions]==========================================
+3.	How do you want to get the result of multiplication by 15 without using * (multiply operation) and + (plus operations).
+Soln: 
+	Bitshift the number to the left by 4 and then subtract by the number. 
+	E.g.
+		int a; // Assume this is the number that is to be multiplied with 15 
+		int mul_15  = (a << 4) - a;
+
+
+4.	Suppose server S want to download real time video from one of existing media servers A, B, C, D. However the server S still doesn't know which media server is available and can provide the highest speed transfer. 
+
+Please write a simple code to make the server S chooses the fastest server using below function:
+a.	int get_speed(ServerID);
+This function is used to get the transfer speed from Server[ServerID] to server S on HTTP protocol. The return value of this function is integer value. For example: get_speed(A) return 15, it means the transfer speed is 15 Kbps.
+
+Soln:	USING PYTHON CODE
+
+	 	We assume that the number of servers are provided to us as a list (array). We pass the list as an argument to the below which
+	 	iterates over the list and saves the serverID and its speed into a dict (key:value) pair. The function then sorts the dict based
+	 	on its values and saves it to an OrderedDict (to preserve the descending order). We then return the first item in the ordered dict
+
+		# Python function
+		# Args: 
+		#	serverID_list: list of servers
+		# Return:
+		#	serverID with fastest speed
+
+		# Python library
+		from collections import OrderedDict
+
+		def get_fastest_server(serverID_list):
+			serverID = {}											# Create empty dict
+			for server in serverID_list:							# Add serverID and its speeds one by one to the dict
+				serverID[server] = get_speed(serverID)
+		
+			# Take the dictionary and sort it in descending order
+			sorted_speed = OrderedDict(sorted(serverID.values(), key=lambda k: k['serverID']))
+			return sorted_speed[0]
+			
+		E.g. usage: 
+		fastest_server = get_faster_servers([serverA, serverB, serverC, serverD])
+
+
+b.	bool  connect(server);
+This function is to check the availability of the media server using RMTP (Real Time Message Protocol). This function will return true if the media server have the video source that can be streamed by server S. For example: connect(A) return true, it means server S can stream video from server A.
+
+Soln:	We modify the function from 4(a) to return the ordered dict 'sorted_speed' of serverID and its speeds in decresing order. It 
+		checks the connection on each of the servers and returns the one that works.
+		
+		# Python Function
+		# Args:
+		#	server_speeds: Python dictionary containing the serverID as key and its speeds as value in descending 
+		# Returns:
+		#	serverID on which connect() is possible
+
+		def send_video(sorted_speeds):
+			for key in serverID:				# Iterate over dictionary
+				if (connect(key)):				# If connection is true, then return that serverID
+					return key
+
+		E.g. usage: 
+		serverID = send_video([serverA, serverB, serverC, serverD])
+
+Hint: 
+get_speed(serverID) function only check the transfer speed of the media server using normal HTTP. It doesn't guarantee the media server is available. Example: Media Server A may provide the highest transfer speed, however there is no video source available in media server A. So in this case, server B may connect to other server. 
+
+
+==============================================[SQL Questions]==============================================
+5.	Below is the customer table in database ABC.   
+
+[Customer Table]:
+	ID	Name	Salary	City
+	====================================
+	1	Romeo	1000	Surabaya
+	2	Julia	3000	Ho chi min
+	3	Robert	2000	Hongkong
+	….			
+	100	Deniro	5000	Singapore
+
+	(total record = 100)
+	(Id is Primary Key)	
+
+	a.	Please provide a SQL script to query customer that salary is between 2000-3500!
+	b.	Please provide a SQL script to query customer that his/her city occurs in the table more than or equal to 6.  
+		Example:
+     		  The number of customer that live in hongkong is 10
+	   		  The number of customer that live in surabaya=5 
+	   		  The number of customer that live in singapore=6. 
+      		  So in this example the output should be all customer that live in Singapore and Hongkong only. 
+
+Soln:
+	a. 	SELECT *
+	        FROM [Customer Table]
+	        WHERE Salary >= 2000 AND Salary <= 3500;
+
+	b. 	SELECT *, COUNT(*) as count 
+			FROM [Customer Table]
+			GROUP BY City 
+			HAVING count > 6;
